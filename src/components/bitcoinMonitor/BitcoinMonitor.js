@@ -1,6 +1,6 @@
 import React from 'react';
-import axios from 'axios';
 import moment from 'moment';
+import BitcoinService from '../../services/BitcoinService';
 import Display from './Display';
 
 class BitcoinMonitor extends React.Component {
@@ -25,12 +25,9 @@ class BitcoinMonitor extends React.Component {
 
   getCurrentPrice = async () => {
     try {
-      const currentPrice = await axios.get(
-        'https://api.coindesk.com/v1/bpi/currentprice.json',
-        {}
-      );
+      const currentPrice = await BitcoinService.getCurrentPrice();
       this.setState({ isLoading: false });
-      this.setState({ currentPrice: currentPrice.data });
+      this.setState({ currentPrice });
     } catch (error) {
       this.setState({ isLoading: false });
       this.setState({ error: error.message });
@@ -39,21 +36,17 @@ class BitcoinMonitor extends React.Component {
 
   getPrices = async () => {
     try {
-      const prices = await axios.get(
-        `https://api.coindesk.com/v1/bpi/historical/close.json?start=${
-          this.state.startDate
-        }&end=${this.state.endDate}`,
-        {}
+      const prices = await BitcoinService.getPrices(
+        this.state.startDate,
+        this.state.endDate
       );
       this.setState({ isLoading: false });
-      this.setState({ prices: prices.data.bpi });
+      this.setState({ prices: prices.bpi });
     } catch (error) {
       this.setState({ isLoading: false });
       this.setState({ error: error.message });
     }
   };
-
-  // https://api.coindesk.com/v1/bpi/historical/close.json?start=2013-09-01&end=2013-09-05
 
   render() {
     return (
