@@ -1,0 +1,14 @@
+.current-price {
+  margin-bottom: 2em;
+
+  .label {
+    font-weight: bold;
+    margin-right: 1em;
+    text-transform: uppercase;
+  }
+
+  .last-updated {
+    font-style: italic;
+    font-size: 0.8em;
+  }
+}

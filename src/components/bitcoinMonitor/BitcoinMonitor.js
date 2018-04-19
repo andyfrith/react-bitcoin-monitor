@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import moment from 'moment';
 import Display from './Display';
 
 class BitcoinMonitor extends React.Component {
@@ -7,7 +8,13 @@ class BitcoinMonitor extends React.Component {
     currentPrice: null,
     isLoading: false,
     error: null,
-    prices: null
+    prices: null,
+    startDate: moment()
+      .subtract(7, 'days')
+      .format('YYYY-MM-DD'),
+    endDate: moment()
+      .subtract(1, 'days')
+      .format('YYYY-MM-DD')
   };
 
   async componentDidMount() {
@@ -33,7 +40,9 @@ class BitcoinMonitor extends React.Component {
   getPrices = async () => {
     try {
       const prices = await axios.get(
-        'https://api.coindesk.com/v1/bpi/historical/close.json?start=2013-09-01&end=2013-09-05',
+        `https://api.coindesk.com/v1/bpi/historical/close.json?start=${
+          this.state.startDate
+        }&end=${this.state.endDate}`,
         {}
       );
       this.setState({ isLoading: false });

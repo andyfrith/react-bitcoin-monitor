@@ -11,7 +11,7 @@ const Display = ({ currentPrice, isLoading, error, prices }) => {
     return <div>Error: {error}! Please try again.</div>;
   }
   return (
-    <div>
+    <div className="mt-md-5 mx-md-5">
       <CurrentPrice currentPrice={currentPrice} />
       <PriceHistory prices={prices} />
     </div>
